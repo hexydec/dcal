@@ -7,11 +7,12 @@
 		left: 0;
 		width: 400px;
 		display: flex;
+		align-items: flex-start;
 		box-shadow: 0 0 5px #aaa;
 		background: #FFF;
 		text-align: center;
 		line-height: 1;
-		transition: all 0.2s;
+		transition: all 0.3s;
 		opacity: 0;
 		visibility: hidden;
 	}

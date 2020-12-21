@@ -111,8 +111,10 @@ export default class dcal {
 				}
 				this.obj.after(this.calendar.append(html));
 				this.rendered = true;
+				window.requestAnimationFrame(() => this.show());
+			} else {
+				this.show();
 			}
-			this.show();
 		}).on("blur", () => {
 			if (!$(document.activeElement, this.calendar).length) {
 				this.hide();
@@ -225,8 +227,12 @@ export default class dcal {
 				last = new Date(value.year, value.month+1, 0).getDate();
 			$("."+this.config.cls+"__control[for='date-day-1']", this.calendar).data("start", day);
 			$("input[type=radio][name="+this.name+"-day]", this.calendar).each((key, item) => {
-				const self = $(item);
-				self.prop("disabled", self.val() > last);
+				const self = $(item),
+					disabled = self.val() > last;
+				self.prop("disabled", disabled);
+				if (disabled) {
+					self.prop("checked", false);
+				}
 			});
 		}
 
