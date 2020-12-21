@@ -1,0 +1,132 @@
+.dcal {
+	position: relative;
+
+	&__calendar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 400px;
+		display: flex;
+		box-shadow: 0 0 5px #aaa;
+		background: #FFF;
+		text-align: center;
+		line-height: 1;
+		transition: all 0.2s;
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	&--show &__calendar {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	&__heading {
+		margin: 0;
+		flex: 1 1 100%;
+	}
+
+	&__group {
+		flex: 0 0 25px;
+	}
+
+	&__control {
+		padding: 2px 0 4px 0;
+		border: 1px solid #fff;
+		border-radius: 5px;
+		box-sizing: border-box;
+		transition: background 0.2s;
+		cursor: pointer;
+		min-width: 20px;
+
+		&:hover {
+			background: red;
+			color: #FFF;
+		}
+
+		&-radio {
+			display: none;
+		}
+
+		&-radio[disabled] + & {
+			display: none;
+		}
+
+		&-radio:checked + & {
+			background: blue;
+			color: #FFF;
+		}
+	}
+
+	&__date {
+		flex: 0 0 220px;
+	}
+
+	&__date &__control {
+		padding: 4px 0 6px 0;
+	}
+
+	&__control[data-start="1"] {
+		margin-left: 14%;
+	}
+
+	&__control[data-start="2"] {
+		margin-left: 28%;
+	}
+
+	&__control[data-start="3"] {
+		margin-left: 42%;
+	}
+
+	&__control[data-start="4"] {
+		margin-left: 56%;
+	}
+
+	&__control[data-start="5"] {
+		margin-left: 70%;
+	}
+
+	&__control[data-start="6"] {
+		margin-left: 84%;
+	}
+
+	&__years, &__months, &__dates, &__hours, &__mins, &__secs {
+		display: flex;
+		border: none;
+		padding: 5px;
+		flex-wrap: wrap;
+		align-items: flex-start;
+	}
+
+	&__months, &__dates {
+		border-top: 1px solid #aaa;
+	}
+
+	&__dates {
+
+		&-days {
+			padding: 5px 0;
+		}
+	}
+
+	&__years &__control {
+		flex: 0 0 20%;
+	}
+
+	&__months &__control {
+		flex: 0 0 16.6%;
+	}
+
+	&__dates &__control, &__dates-days {
+		flex: 0 0 14%;
+	}
+
+	&__hours, &__mins, &__secs {
+		flex: 0 0 50px;
+		justify-content: center;
+	}
+
+	&__group &__control {
+		display: block;
+	}
+}
