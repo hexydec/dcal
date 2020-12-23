@@ -1,4 +1,15 @@
-import $ from "../node_modules/dabbyjs/dist/dabby.js";
+import $ from "../node_modules/dabbyjs/src/core/core.js";
+import "../node_modules/dabbyjs/src/attributes/attr/attr.js";
+import "../node_modules/dabbyjs/src/attributes/class/class.js";
+import "../node_modules/dabbyjs/src/attributes/data/data.js";
+import "../node_modules/dabbyjs/src/attributes/prop/prop.js";
+import "../node_modules/dabbyjs/src/attributes/val/val.js";
+import "../node_modules/dabbyjs/src/traversal/add/add.js";
+import "../node_modules/dabbyjs/src/traversal/eq/eq.js";
+import "../node_modules/dabbyjs/src/traversal/children/children.js";
+import "../node_modules/dabbyjs/src/traversal/next-prev/next-prev.js";
+import "../node_modules/dabbyjs/src/manipulation/insert/insert.js";
+import "../node_modules/dabbyjs/src/manipulation/remove/remove.js";
 
 export default class dcal {
 
@@ -46,7 +57,14 @@ export default class dcal {
 
 					// render years
 					this.render(years, "year", year - 2, year + 2);
-					date.append(years);
+					date
+						.append($("<div>", {"class": cls+"year-prev", text: "Prev", click: () => {
+							this.scrollYears(years, false);
+						}}))
+						.append(years)
+						.append($("<div>", {"class": cls+"year-next", text: "Next", click: () => {
+							this.scrollYears(years, true);
+						}}));
 
 					// render months
 					this.render(months, "month", 0, 11, i => {
@@ -247,8 +265,8 @@ export default class dcal {
 				value.sec || value.sec1.toString().concat(value.sec2)
 			);
 			this.obj.val(new Intl.DateTimeFormat("default", {
-				dateStyle: date ? "short" : null,
-				timeStyle: time ? "medium" : null
+				dateStyle: this.date ? "short" : null,
+				timeStyle: this.time ? "medium" : null
 			}).format(obj));
 		}
 	}
@@ -262,25 +280,35 @@ export default class dcal {
 		this.calendar.removeClass(this.config.cls + "--show");
 	}
 
-	render(obj, name, start, end, func) {
+	render(obj, name, start, end, func, append = true) {
 		for (let i = start; i <= end; i++) {
-			obj.append(
-				$("<input>", {
-					type: "radio",
-					name: this.name + "-" + name,
-					id: this.name + "-" + name + "-" + i,
-					value: i,
-					"class": this.config.cls + "__control-radio",
-					change: () => this.update()
-				})
-			)
-			.append(
-				$("<label>", {
+			const input = $("<input>", {
+				type: "radio",
+				name: this.name + "-" + name,
+				id: this.name + "-" + name + "-" + i,
+				value: i,
+				"class": this.config.cls + "__control-radio",
+				change: () => this.update()
+			}),
+				label = $("<label>", {
 					"class": this.config.cls + "__control",
 					for: this.name + "-" + name + "-" + i,
 					text: func ? func(i) : i.toString()
-				})
-			);
+				});
+			if (append) {
+				obj.append(input).append(label);
+			} else {
+				obj.prepend(label).prepend(input);
+			}
 		}
+	}
+
+	scrollYears(obj, forwards) {
+		const children = obj.children("input"),
+			curr = parseInt(children.eq(forwards ? -1 : 0).val()),
+			year = forwards ? curr + 1 : curr - 1,
+			remove = children.eq(forwards ? 0 : -1);
+		this.render(obj, "year", year, year, null, forwards);
+		remove.add(remove.next()).remove();
 	}
 }
