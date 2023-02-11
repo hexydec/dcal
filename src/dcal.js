@@ -78,7 +78,7 @@ export default class dcal {
 					for (let i = 0; i < 7; i++) {
 						dates.append($("<div>", {
 							"class": cls + "dates-days",
-							text: day.toLocaleString("default", {weekday: "short"}).substr(0, 2)
+							text: day.toLocaleString("default", {weekday: "short"}).substring(0, 2)
 						}));
 						day.setDate(day.getDate() + 1);
 					}
