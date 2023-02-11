@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DCal Test</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" href="../dist/dcal.css" />
+		<style>
+			body {
+				font-family: Segoe UI, sans-serif;
+			}
+		</style>
+	</head>
+	<body>
+		<input type="text" name="date" value="" data-dcal="{&quot;type&quot;:&quot;datetime&quot;}" />
+		<script src="../dist/dcal.js"></script>
+		<script type="module">
+			$("input[name=date]").dcal();
+		</script>
+	</body>
+</html>
